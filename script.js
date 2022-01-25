@@ -37,11 +37,6 @@ function playRound(player_pick, computer_pick) {
     return result;
 }
 
-function promptPlayer() {
-    let pick = prompt("Pick 'rock', 'paper', or 'scissors'");
-    return pick;
-}
-
 // runs a best of 5 R-P-S match
 function game() {
     
