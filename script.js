@@ -18,24 +18,23 @@ function computerPlay() {
 
 // logs the result of a round and returns a number based on who won that round
 function playRound(player_pick, computer_pick) {
-    player_pick = player_pick.toLowerCase();
-    // in case of wrong input
-    if (player_pick !== 'rock' && player_pick !== 'paper' && player_pick !== 'scissors') {
-        console.log("Must enter 'rock', 'paper', or 'scissors'");
-        return playRound(promptPlayer(), computer_pick);
+    let result = null;
+    let p = document.createElement("p");
     // in case of tie
-    }   else if (player_pick === computer_pick) {
-        console.log("it is a tie");
-        return 0;
+    if (player_pick === computer_pick) {
+        p.textContent = "It's a tie";
+        result = 0;
     }   else if ((player_pick === 'rock' && computer_pick === 'scissors') ||
             (player_pick === 'scissors' && computer_pick === 'paper') ||
             (player_pick === 'paper' && computer_pick === 'rock')) {
-        console.log(`You win! ${player_pick.toUpperCase()} beats ${computer_pick.toUpperCase()}`);
-        return 1;
+        p.textContent = `You win! ${player_pick.toUpperCase()} beats ${computer_pick.toUpperCase()}`;
+        result = 1;
     }   else {
-        console.log(`You lose! ${computer_pick.toUpperCase()} beats ${player_pick.toUpperCase()}`);
-        return 2;
+        p.textContent = `You lose! ${computer_pick.toUpperCase()} beats ${player_pick.toUpperCase()}`;
+        result = 2;
     }
+    document.getElementById('results').appendChild(p);
+    return result;
 }
 
 function promptPlayer() {
@@ -45,20 +44,7 @@ function promptPlayer() {
 
 // runs a best of 5 R-P-S match
 function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-    for (let i = 0; i < 5; i++) {
-        let roundResult = playRound(promptPlayer(), computerPlay());
-        switch (roundResult) {
-            case 1:
-                playerScore++;
-                break;
-            case 2:
-                computerScore++;
-                break;    
-        }
-    }
-    displayWinner(playerScore, computerScore);
+    
 }
 
 // compares scores and logs the winner
@@ -72,4 +58,10 @@ function displayWinner(playerScore, computerScore) {
     }
 }
 
-game();
+let buttons = document.getElementsByTagName('button');
+buttons = Array.from(buttons);
+for (let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener("click", () => playRound(buttons[i].id, computerPlay()));
+};
+
+// game();
