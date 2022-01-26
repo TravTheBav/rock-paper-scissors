@@ -34,12 +34,12 @@ function playRound(player_pick, computer_pick) {
         result = 2;
     }
     document.getElementById('results').appendChild(p);
-    return result;
+    updateScore(result);
 }
 
 // runs a best of 5 R-P-S match
 function game() {
-    
+    initButtons();
 }
 
 // compares scores and logs the winner
@@ -53,10 +53,24 @@ function displayWinner(playerScore, computerScore) {
     }
 }
 
-let buttons = document.getElementsByTagName('button');
-buttons = Array.from(buttons);
-for (let i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener("click", () => playRound(buttons[i].id, computerPlay()));
-};
+function initButtons() {
+    let buttons = document.getElementsByTagName('button');
+    buttons = Array.from(buttons);
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener("click", () => playRound(buttons[i].id, computerPlay()));
+    };
+}
 
-// game();
+function updateScore(winner) {
+    let score;
+    if (winner == 0) {
+        return; // early return if there is a tie
+    }   else if (winner == 1) {
+        score = document.querySelector("#human-player .score");        
+    }   else if (winner == 2) {
+        score = document.querySelector("#ai-player .score");
+    }
+    score.textContent = Number(score.textContent) + 1;
+}
+
+game();
