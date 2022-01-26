@@ -37,11 +37,6 @@ function playRound(player_pick, computer_pick) {
     updateScore(result);
 }
 
-// runs a best of 5 R-P-S match
-function game() {
-    initButtons();
-}
-
 // compares scores and logs the winner
 function displayWinner(playerScore, computerScore) {
     if (playerScore > computerScore) {
@@ -71,6 +66,31 @@ function updateScore(winner) {
         score = document.querySelector("#ai-player .score");
     }
     score.textContent = Number(score.textContent) + 1;
+}
+
+function checkWinner() {
+    let playerScore = document.querySelector("#human-player .score").textContent;
+    let aiScore = document.querySelector("#ai-player .score").textContent;
+    if (playerScore == "5") {
+        outputWinner("Player-1");
+    }   else if (aiScore == "5") {
+        outputWinner("RPS-9000");
+    }
+}
+
+function outputWinner(winnerName) {
+    let output = document.createElement("p");
+    output.textContent = `***${winnerName} wins this match***`;
+    document.body.appendChild(output);
+}
+
+// runs a best of 5 R-P-S match
+function game() {
+    initButtons();
+    let scores = Array.from(document.querySelectorAll(".score"));
+    for (i = 0; i < scores.length; i++) {
+        scores[i].addEventListener("DOMSubtreeModified", checkWinner);
+    }
 }
 
 game();
